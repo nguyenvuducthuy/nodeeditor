@@ -37,7 +37,9 @@ find_package(Qt5 COMPONENTS
              Core
              Widgets
              Gui
-             OpenGL)
+             OpenGL
+             Network
+             )
 
 qt5_add_resources(RESOURCES ./resources/resources.qrc)
 
@@ -93,6 +95,7 @@ target_link_libraries(nodes
     Qt5::Widgets
     Qt5::Gui
     Qt5::OpenGL
+    Qt5::Network
 )
 
 target_compile_definitions(nodes

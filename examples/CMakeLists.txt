@@ -2,6 +2,8 @@ add_subdirectory(connection_colors)
 
 add_subdirectory(example2)
 
+add_subdirectory(example2Thuy)
+
 add_subdirectory(calculator)
 
 add_subdirectory(images)
