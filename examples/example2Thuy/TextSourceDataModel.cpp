@@ -2,10 +2,10 @@
 
 TextSourceDataModel::
 TextSourceDataModel()
-  : _lineEdit(new QLineEdit("Default Text"))
+  : _lineEdit(new QTextEdit("Default Text"))
 {
-  connect(_lineEdit, &QLineEdit::textEdited,
-          this, &TextSourceDataModel::onTextEdited);
+  connect(_lineEdit, &QTextEdit::textChanged,
+          this, &TextSourceDataModel::onTextChanged);
 }
 
 
@@ -34,9 +34,10 @@ nPorts(PortType portType) const
 
 void
 TextSourceDataModel::
-onTextEdited(QString const &string)
+//onTextEdited(QString const &string)
+onTextChanged()
 {
-  Q_UNUSED(string);
+  //Q_UNUSED(string);
 
   emit dataUpdated(0);
 }
@@ -54,5 +55,5 @@ std::shared_ptr<NodeData>
 TextSourceDataModel::
 outData(PortIndex)
 {
-  return std::make_shared<TextData>(_lineEdit->text());
+  return std::make_shared<TextData>(_lineEdit->toPlainText());
 }

@@ -2,6 +2,7 @@
 
 #include <QtCore/QObject>
 #include <QtWidgets/QLineEdit>
+#include <QtWidgets/QTextEdit>
 
 #include "TextData.hpp"
 
@@ -64,9 +65,10 @@ public:
 private slots:
 
   void
-  onTextEdited(QString const &string);
+  //onTextEdited(QString const &string);
+	onTextChanged();
 
 private:
 
-  QLineEdit * _lineEdit;
+	QTextEdit * _lineEdit;
 };

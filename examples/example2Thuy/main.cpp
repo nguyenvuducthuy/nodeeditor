@@ -9,6 +9,7 @@
 #include "TextSourceDataModel.hpp"
 #include "TextDisplayDataModel.hpp"
 #include "tcpModel.hpp"
+#include "rigBuilderModel.hpp"
 #include "tcp.hpp"
 
 using QtNodes::DataModelRegistry;
@@ -23,6 +24,8 @@ registerDataModels()
   ret->registerModel<TextSourceDataModel>();
 
   ret->registerModel<TextDisplayDataModel>();
+
+  ret->registerModel<rigBuilderModel>();
 
   ret->registerModel<tcpModel>();
 
