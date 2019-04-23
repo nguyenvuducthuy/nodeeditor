@@ -2,6 +2,7 @@
 
 #include <QtCore/QObject>
 #include <QtWidgets/QLabel>
+#include <QtWidgets/QTextEdit>
 
 #include "TextData.hpp"
 
@@ -13,19 +14,6 @@ using QtNodes::PortType;
 using QtNodes::PortIndex;
 using QtNodes::NodeData;
 using QtNodes::NodeDataModel;
-
-QString bipedRig[] =
-{
-	"Control",
-	"Hand_L",
-	"Hand_R",
-	"Spine",
-	"Neck",
-	"Leg_L",
-	"Leg_R",
-	"Arm_L",
-	"Arm_R"
-};
 
 /// The model dictates the number of inputs and outputs for the Node.
 /// In this example it has no logic.
@@ -40,6 +28,19 @@ public:
 		~rigBuilderModel() {}
 
 public:
+
+	QStringList bipedRig =
+	{
+		"Control",
+		"Hand_L",
+		"Hand_R",
+		"Spine",
+		"Neck",
+		"Leg_L",
+		"Leg_R",
+		"Arm_L",
+		"Arm_R"
+	};
 
 	QString
 		caption() const override
@@ -82,18 +83,31 @@ public:
 	std::shared_ptr<NodeData>
 		outData(PortIndex port) override;
 
+	QStringList msg;
+
 	void
-		setInData(std::shared_ptr<NodeData> data, int) override
+		setInData(std::shared_ptr<NodeData> data, PortIndex portIndex) override
 	{
 		auto textData = std::dynamic_pointer_cast<TextData>(data);
 
+		QString inData;
 		if (textData)
 		{
-			_label->setText(textData->text());
+			msg[portIndex] = textData->text();
+			for (auto i : msg)
+			{
+				inData += i+"\r\n";
+			}
+			_label->setText(inData);
 		}
 		else
 		{
-			_label->clear();
+			msg[portIndex] = "";
+			for (auto i : msg)
+			{
+				inData += i + "\r\n";
+			}
+			_label->setText(inData);
 		}
 
 		_label->adjustSize();
@@ -102,9 +116,14 @@ public:
 	QWidget *
 		embeddedWidget() override { return _label; }
 
+private slots:
+
+	void
+		onTextChanged();
+
 private:
 
-	QLabel * _label;
+	QTextEdit * _label;
 };
 
 

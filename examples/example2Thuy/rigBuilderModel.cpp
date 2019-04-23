@@ -2,9 +2,16 @@
 
 rigBuilderModel::
 rigBuilderModel()
-	: _label(new QLabel("Resulting Text"))
+	: _label(new QTextEdit("Resulting Text"))
 {
-	_label->setMargin(3);
+	//_label->setMargin(3);
+	connect(_label, &QTextEdit::textChanged,
+		this, &rigBuilderModel::onTextChanged);
+
+	for (int i = 0; i < bipedRig.length(); i++)
+	{
+		msg.append("");
+	}
 }
 
 
@@ -17,7 +24,7 @@ nPorts(PortType portType) const
 	switch (portType)
 	{
 	case PortType::In:
-		result = 2;
+		result = bipedRig.length();
 		break;
 
 	case PortType::Out:
@@ -43,8 +50,7 @@ std::shared_ptr<NodeData>
 rigBuilderModel::
 outData(PortIndex)
 {
-	std::shared_ptr<NodeData> ptr;
-	return ptr;
+	return std::make_shared<TextData>(_label->toPlainText());
 }
 
 QString
@@ -54,10 +60,11 @@ portCaption(PortType portType, PortIndex portIndex) const
 	switch (portType)
 	{
 	case PortType::In:
-		for (int i = 0; i< bipedRig->length(); i++)
+		for (int i = 0; i< bipedRig.length(); i++)
 		{
 			if (portIndex == i)
-				return QStringLiteral(bipedRig[i]);
+				//return QStringLiteral(bipedRig[i]);
+				return bipedRig[i];
 		}
 
 		break;
@@ -69,4 +76,11 @@ portCaption(PortType portType, PortIndex portIndex) const
 		break;
 	}
 	return QString();
+}
+
+void
+rigBuilderModel::
+onTextChanged()
+{
+	emit dataUpdated(0);
 }
